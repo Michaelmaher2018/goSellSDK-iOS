@@ -50,6 +50,8 @@ extension ApplePayTableViewCell: LoadingWithModelCell {
 	  }
 	  let applPayButtonType:PKPaymentButtonType = self.model?.applePayButtonType() ??  defaultApplePayType
 	  
+	  
+	  
 	  let applePayButton = UIButton() // :PKPaymentButton = PKPaymentButton(paymentButtonType: applPayButtonType, paymentButtonStyle: self.model?.applePayButtonTypeStyle() ?? .black)
 	  
 //            applePayButton.backgroundColor = .blue
