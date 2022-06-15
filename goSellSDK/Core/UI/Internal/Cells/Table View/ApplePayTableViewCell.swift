@@ -21,112 +21,90 @@ import class PassKit.PKPassLibrary
 import enum PassKit.PKPaymentButtonType
 
 internal class ApplePayTableViewCell: BaseTableViewCell {
-    
-    // MARK: - Internal -
-    // MARK: Properties
-    
-    internal weak var model: ApplePaymentOptionTableViewCellModel?
-    
-    // MARK: - Private -
-    // MARK: Properties
-    
-    //@IBOutlet private weak var titleLabel:      UILabel?
-    @IBOutlet private weak var iconImageView:   UIImageView?
-    //@IBOutlet private weak var arrowImageView:  UIImageView?
+	
+	// MARK: - Internal -
+	// MARK: Properties
+	
+	internal weak var model: ApplePaymentOptionTableViewCellModel?
+	
+	// MARK: - Private -
+	// MARK: Properties
+	
+	//@IBOutlet private weak var titleLabel:      UILabel?
+	@IBOutlet private weak var iconImageView:   UIImageView?
+	//@IBOutlet private weak var arrowImageView:  UIImageView?
 }
 
 // MARK: - LoadingWithModelCell
 extension ApplePayTableViewCell: LoadingWithModelCell {
-    
-    internal func updateContent(animated: Bool) {
+	
+	internal func updateContent(animated: Bool) {
 		
 		//self.titleLabel?.text       = self.model?.title
-  //self.titleLabel?.setTextStyle(Theme.current.paymentOptionsCellStyle.web.titleStyle)
-  DispatchQueue.main.async {
-	  self.iconImageView?.image   = self.model?.iconImage
-	  var defaultApplePayType:PKPaymentButtonType = .plain
-	  if #available(iOS 10.0, *) {
-		  defaultApplePayType = .inStore
-	  }
-	  let applPayButtonType:PKPaymentButtonType = self.model?.applePayButtonType() ??  defaultApplePayType
-	  
-	  
-	  
-	  let applePayButton = UIButton() // :PKPaymentButton = PKPaymentButton(paymentButtonType: applPayButtonType, paymentButtonStyle: self.model?.applePayButtonTypeStyle() ?? .black)
-	  
-//            applePayButton.backgroundColor = .blue
-	  var frame:CGRect = applePayButton.frame
-	  frame.size.width = self.frame.width - 30
-	  frame.size.height = 40
-	  applePayButton.frame = frame
-	  //applePayButton.tap_borderColor = UIColor(tap_hex: "E1E1E1")
-	  //applePayButton.tap_borderWidth = 1
-	  applePayButton.titleLabel?.font = UIFont(name: "Tajawal-Regular", size: 17)
-	  applePayButton.layer.cornerRadius = 4
-	  applePayButton.setTitleColor(UIColor.black, for: .normal)
-	  applePayButton.layer.borderWidth = 1
-	  applePayButton.layer.borderColor = UIColor.black.cgColor
-	  
-	  if GoSellSDK.language == "ar" {
-		  applePayButton.setTitle("الدفع بواسطة Apple", for: .normal)
-	  }else {
-		  applePayButton.setTitle("Pay with Apple", for: .normal)
-	  }
-	  
-	  applePayButton.center = self.contentView.center
-	  applePayButton.addTarget(self, action: #selector(self.applePayButtonClicked(_:)), for: .touchUpInside)
-	  self.contentView.addSubview(applePayButton)
-	  
-	 // self.arrowImageView?.image  = self.model?.arrowImage
-	  self.backgroundColor = UIColor.clear
-	  
-	  // Hide the apple pay button if the device is not supporting Apple pay at all
-	  self.isHidden = !PKPaymentAuthorizationViewController.canMakePayments()
-	  
-  }
-}
-
-@objc private func applePayButtonClicked(_ sender: Any) {
-  
-  //guard let model = Process.shared.viewModelsHandlerInterface.paymentOptionViewModel(at: model!.indexPath) as? TableViewCellViewModel else { return }
-  
-  //model.tableViewDidSelectCell(model.)
-  var defaultApplePayType:PKPaymentButtonType = .plain
-  if #available(iOS 10.0, *) {
-	  defaultApplePayType = .inStore
-  }
-  let applPayButtonType:PKPaymentButtonType = model?.applePayButtonType() ??  defaultApplePayType
-  if applPayButtonType == .setUp {
-	  Process.shared.closePayment(with: .cancelled, fadeAnimation: true, force: true) {
-		  DispatchQueue.main.async {
-			  let library = PKPassLibrary()
-			  library.openPaymentSetup()
-		  }
-	  }
-	  return
-  }
-  model?.tableViewDidSelectCell(model!.tableView!)
-}
-    
-    @objc private func applePayButtonClicked(_ sender: Any) {
-        
-        //guard let model = Process.shared.viewModelsHandlerInterface.paymentOptionViewModel(at: model!.indexPath) as? TableViewCellViewModel else { return }
-        
-        //model.tableViewDidSelectCell(model.)
-        var defaultApplePayType:PKPaymentButtonType = .plain
-        if #available(iOS 10.0, *) {
-            defaultApplePayType = .inStore
-        }
-        let applPayButtonType:PKPaymentButtonType = model?.applePayButtonType() ??  defaultApplePayType
-        if applPayButtonType == .setUp {
-            Process.shared.closePayment(with: .cancelled, fadeAnimation: true, force: true) {
-                DispatchQueue.main.async {
-                    let library = PKPassLibrary()
-                    library.openPaymentSetup()
-                }
-            }
-            return
-        }
-        model?.tableViewDidSelectCell(model!.tableView!)
-    }
+		//self.titleLabel?.setTextStyle(Theme.current.paymentOptionsCellStyle.web.titleStyle)
+		DispatchQueue.main.async {
+			self.iconImageView?.image   = self.model?.iconImage
+			var defaultApplePayType:PKPaymentButtonType = .plain
+			if #available(iOS 10.0, *) {
+				defaultApplePayType = .inStore
+			}
+			let applPayButtonType:PKPaymentButtonType = self.model?.applePayButtonType() ??  defaultApplePayType
+			
+			
+			
+			let applePayButton = UIButton() // :PKPaymentButton = PKPaymentButton(paymentButtonType: applPayButtonType, paymentButtonStyle: self.model?.applePayButtonTypeStyle() ?? .black)
+			
+			//            applePayButton.backgroundColor = .blue
+			var frame:CGRect = applePayButton.frame
+			frame.size.width = self.frame.width - 30
+			frame.size.height = 40
+			applePayButton.frame = frame
+			//applePayButton.tap_borderColor = UIColor(tap_hex: "E1E1E1")
+			//applePayButton.tap_borderWidth = 1
+			applePayButton.titleLabel?.font = UIFont(name: "Tajawal-Regular", size: 17)
+			applePayButton.layer.cornerRadius = 4
+			applePayButton.setTitleColor(UIColor.black, for: .normal)
+			applePayButton.layer.borderWidth = 1
+			applePayButton.layer.borderColor = UIColor.black.cgColor
+			
+			if GoSellSDK.language == "ar" {
+				applePayButton.setTitle("الدفع بواسطة Apple", for: .normal)
+			}else {
+				applePayButton.setTitle("Pay with Apple", for: .normal)
+			}
+			
+			applePayButton.center = self.contentView.center
+			applePayButton.addTarget(self, action: #selector(self.applePayButtonClicked(_:)), for: .touchUpInside)
+			self.contentView.addSubview(applePayButton)
+			
+			// self.arrowImageView?.image  = self.model?.arrowImage
+			self.backgroundColor = UIColor.clear
+			
+			// Hide the apple pay button if the device is not supporting Apple pay at all
+			self.isHidden = !PKPaymentAuthorizationViewController.canMakePayments()
+			
+		}
+	}
+	
+	@objc private func applePayButtonClicked(_ sender: Any) {
+		
+		//guard let model = Process.shared.viewModelsHandlerInterface.paymentOptionViewModel(at: model!.indexPath) as? TableViewCellViewModel else { return }
+		
+		//model.tableViewDidSelectCell(model.)
+		var defaultApplePayType:PKPaymentButtonType = .plain
+		if #available(iOS 10.0, *) {
+			defaultApplePayType = .inStore
+		}
+		let applPayButtonType:PKPaymentButtonType = model?.applePayButtonType() ??  defaultApplePayType
+		if applPayButtonType == .setUp {
+			Process.shared.closePayment(with: .cancelled, fadeAnimation: true, force: true) {
+				DispatchQueue.main.async {
+					let library = PKPassLibrary()
+					library.openPaymentSetup()
+				}
+			}
+			return
+		}
+		model?.tableViewDidSelectCell(model!.tableView!)
+	}
 }
