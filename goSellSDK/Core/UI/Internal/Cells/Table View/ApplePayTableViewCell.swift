@@ -39,50 +39,36 @@ internal class ApplePayTableViewCell: BaseTableViewCell {
 extension ApplePayTableViewCell: LoadingWithModelCell {
 	
 	internal func updateContent(animated: Bool) {
-		
-		//self.titleLabel?.text       = self.model?.title
-		//self.titleLabel?.setTextStyle(Theme.current.paymentOptionsCellStyle.web.titleStyle)
 		DispatchQueue.main.async {
-			self.iconImageView?.image   = self.model?.iconImage
-			var defaultApplePayType:PKPaymentButtonType = .plain
-			if #available(iOS 10.0, *) {
-				defaultApplePayType = .inStore
-			}
-			let applPayButtonType:PKPaymentButtonType = self.model?.applePayButtonType() ??  defaultApplePayType
+			self.iconImageView?.image = self.model?.iconImage
 			
-			
-			
-			let applePayButton = UIButton() // :PKPaymentButton = PKPaymentButton(paymentButtonType: applPayButtonType, paymentButtonStyle: self.model?.applePayButtonTypeStyle() ?? .black)
-			
-			//            applePayButton.backgroundColor = .blue
-			var frame:CGRect = applePayButton.frame
-			frame.size.width = self.frame.width - 30
-			frame.size.height = 40
-			applePayButton.frame = frame
-			//applePayButton.tap_borderColor = UIColor(tap_hex: "E1E1E1")
-			//applePayButton.tap_borderWidth = 1
-			applePayButton.titleLabel?.font = UIFont(name: "Tajawal-Regular", size: 17)
-			applePayButton.layer.cornerRadius = 4
-			applePayButton.setTitleColor(UIColor.black, for: .normal)
-			applePayButton.layer.borderWidth = 1
-			applePayButton.layer.borderColor = UIColor.black.cgColor
-			
-			if GoSellSDK.language == "ar" {
-				applePayButton.setTitle("الدفع بواسطة Apple", for: .normal)
-			}else {
-				applePayButton.setTitle("Pay with Apple", for: .normal)
-			}
-			
-			applePayButton.center = self.contentView.center
+			// Create the Apple Pay button
+			let applePayButton = PKPaymentButton(paymentButtonType: .plain, paymentButtonStyle: .whiteOutline)
 			applePayButton.addTarget(self, action: #selector(self.applePayButtonClicked(_:)), for: .touchUpInside)
+			
+			// Set button size
+			let buttonHeight: CGFloat = 30
+			let buttonWidth: CGFloat = 100
+			
+			// Position the button on the left
+			applePayButton.frame = CGRect(x: 20, y: (self.contentView.bounds.height - buttonHeight) / 2, width: buttonWidth, height: buttonHeight)
+			
+			// Create and configure the label for text
+			let label = UILabel()
+			label.text = "الــدفع عن طريق ابل باي"
+			label.textAlignment = .right
+
+			label.font = UIFont(name: "Tajawal-Bold", size: 20)
+			// Position the label on the right
+			let labelWidth: CGFloat = self.contentView.bounds.width - buttonWidth - 60
+			label.frame = CGRect(x: 20 + buttonWidth + 20, y: (self.contentView.bounds.height - buttonHeight) / 2, width: labelWidth, height: buttonHeight)
+			
+			// Add the button and label to the view
 			self.contentView.addSubview(applePayButton)
+			self.contentView.addSubview(label)
 			
-			// self.arrowImageView?.image  = self.model?.arrowImage
-			self.backgroundColor = UIColor.clear
-			
-			// Hide the apple pay button if the device is not supporting Apple pay at all
+			self.backgroundColor = UIColor.white
 			self.isHidden = !PKPaymentAuthorizationViewController.canMakePayments()
-			
 		}
 	}
 	
